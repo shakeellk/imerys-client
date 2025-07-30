@@ -1,0 +1,35 @@
+<div class="w-full flex items-center justify-start">
+  <!-- Sidebar -->
+  <div class="w-[16%]">
+    <app-sidebar />
+  </div>
+
+  <!-- Main Content -->
+  <div class="w-[84%]">
+    <!-- Top Header -->
+    <div class="bg-[#2F2F2F] fixed top-0 px-5 w-[84%] flex items-center justify-between h-14 z-50">
+      <!-- Left: Menu + Welcome -->
+      <div class="flex items-center justify-center gap-5">
+        <div>
+          <img src="/assets/icons/menu.png" alt="menu" class="cursor-pointer" />
+        </div>
+        <h4 class="text-lg font-semibold text-white">Welcome,</h4>
+      </div>
+
+      <!-- Right: Just Profile Icon (no routing) -->
+      <div>
+        <img
+          src="../../assets/icons/profile.png"
+          alt="Profile"
+          class="cursor-pointer h-8 w-8"
+        />
+      </div>
+    </div>
+
+    <!-- Main Component Area -->
+    <div class="bg-white mt-14 text-black p-5">
+      <!-- <app-home /> -->
+      <router-outlet/>
+    </div>
+  </div>
+</div>

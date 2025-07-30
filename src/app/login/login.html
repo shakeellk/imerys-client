@@ -1,0 +1,82 @@
+<div class="w-full flex items-center justify-center relative">
+    <div class="w-[45%] h-screen relative">
+        <img src="../../assets/imery3.jpg" alt=""
+            class="h-screen absolute left-0 w-full object-cover object-center z-10 pointer-events-none">
+    </div>
+    <div class="w-[55%] bg-white h-screen relative">
+        <div class="flex items-center justify-center absolute top-[40%] -left-1">
+            <img src="../../assets/polygon.png" alt="" class="w-16 pointer-events-none">
+        </div>
+        <div class=" flex flex-col items-center justify-center mt-5">
+            <img src="../../assets/imerys.svg" alt="" class="w-28 pointer-events-none">
+            <div class="w-1/2 border border-[#2F2F2F] shadow-xl">
+                <h4 class="text-3xl font-medium text-center mt-8">Analytical Support Data <br> Portal</h4>
+                <div class="mt-10">
+                    <h5 class="ml-10 text-xl font-medium">Login to your account</h5>
+                    <form [formGroup]="loginForm" class="w-full flex flex-col items-start justify-center gap-5 mt-8">
+                        <div class="px-10 w-full">
+                            <label for="username" class="text-sm font-medium ml-2">Username</label>
+                            <input type="text" name="username" ngModel pattern="[a-zA-Z ]*"
+                                class="w-full p-4 rounded-md border border-neutral-300 text-sm bg-neutral-50"
+                                formControlName="username" placeholder="Enter username">
+                            <span
+                                *ngIf="loginForm.get('username')?.hasError('required') && loginForm.get('username')?.touched"
+                                class="text-sm text-red-500 mt-1 font-medium">Username is required</span>
+                        </div>
+                        <div class="px-10 w-full">
+                            <label for="password" class="text-sm font-medium ml-2">Password</label>
+                            <div class="flex items-center justify-center relative">
+                                <input type={{passwordInputType}} name="password"
+                                class="w-full p-4 rounded-md border border-neutral-300 text-sm bg-neutral-50"
+                                minlength="6" maxlength="15" formControlName="password" placeholder="Enter password">
+                                <span (click)="handlePasswordInputChange('password')" *ngIf="passwordInputType==='text'" class="absolute right-3 cursor-pointer">
+                                    <img src="../../assets/view.png" alt="" class="w-5">
+                                </span>
+                                <span (click)="handlePasswordInputChange('text')" *ngIf="passwordInputType==='password'" class="absolute right-3 cursor-pointer">
+                                    <img src="../../assets/hide.png" alt="" class="w-5">
+                                </span>
+                            </div>
+                            <span
+                                *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched"
+                                class="text-sm text-red-500  font-medium">Password is required</span>
+                            <span
+                                *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched"
+                                class="text-sm text-red-500  font-medium">Mininum 6 characters are required</span>
+                        </div>
+
+                        <div class=" w-full flex items-center justify-between px-12">
+                            <div class="flex items-center justify-center gap-2">
+                                <div (click)="handleRememberMeToggle()" class="border w-14 h-7 rounded-full bg-neutral-100 border-neutral-300 p-0.5 cursor-pointer flex items-center justify-start" *ngIf="!rememberme">
+                                    <div class="bg-white w-6 h-6 rounded-full border-2" >
+                                    </div>
+                                </div>
+                                <div (click)="handleRememberMeToggle()" class="border w-14 h-7 rounded-full bg-neutral-100 border-neutral-300 p-0.5 cursor-pointer flex items-center justify-end" *ngIf="rememberme">
+                                    <div class="bg-white w-6 h-6 rounded-full border-2">
+                                    </div>
+                                </div>
+                                <span class="text-sm font-medium">Remember me</span>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-[#007DF2] cursor-pointer">Forgot password?</h5>
+                            </div>
+                        </div>
+                        <div class="w-full px-20">
+                            <button (click)="handleLogin()" type="submit"
+                                class="w-full py-2.5 text-sm rounded-md bg-[#2F2F2F] text-white">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-center mt-5 mb-8">
+                    <span class="text-sm font-medium text-[#6A6A6A]">Facing issue in Sign in? <span
+                            routerLink="/register" class="underline cursor-pointer text-[#0D416B]">Contact
+                            Admin</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <img src="../../assets/imery1.png" alt="" class="w-44 absolute right-5 bottom-2 pointer-events-none">
+        </div>
+
+    </div>
+
+</div>

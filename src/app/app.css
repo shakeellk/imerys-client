@@ -1,0 +1,8 @@
+/* ::ng-deep .mat-mdc-checkbox.mat-accent .mdc-checkbox__background .mdc-checkbox__native-control .mdc-checkbox--selected {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-checkbox__checkmark-path {
+  stroke: white !important;
+} */

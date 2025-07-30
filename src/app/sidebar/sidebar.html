@@ -1,0 +1,22 @@
+<div class="w-[16%] bg-[#2F2F2F] fixed top-0 left-0 h-screen text-white p-5">
+    <div [routerLink]="['/']">
+        <img src="/assets/imerys.svg" alt="" class="w-16 h-16 object-contain cursor-pointer"  routerLinkActive="router-link-active" >
+    </div>
+    <div class="mt-10">
+        <div class="flex flex-col items-center justify-center gap-8 w-full">
+            <div *ngFor="let item of navItems"  class="w-full flex items-center justify-start gap-3 border py-2.5 rounded-full cursor-pointer px-5">
+                <img src="/assets/icons/{{item.filename}}" alt="" class="w-7" (click)="handleChangeComponent(item.iconName)">
+            <div class="w-[80%] flex items-center justify-center " (click)="handleChangeComponent(item.iconName)" >
+                <span class="font-medium text-sm">{{item.iconName}}</span>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-5 left-0 w-full">
+        <button (click)="handleLogOut()" class="flex items-center justify-center gap-3 w-full">
+            <img src="/assets/icons/logout.png" alt="" class="w-7">
+            <span class="text-lg font-medium">Logout</span>
+        </button>
+    </div>
+</div>
