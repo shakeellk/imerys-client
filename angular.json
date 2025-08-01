@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "imerys": {
+    "myapp": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -14,16 +14,17 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
-                
                 "glob": "**/*",
                 "input": "public"
               }
             ],
             "styles": [
-              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "server": "src/main.server.ts",
@@ -60,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "imerys:build:production"
+              "buildTarget": "myapp:build:production"
             },
             "development": {
-              "buildTarget": "imerys:build:development"
+              "buildTarget": "myapp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,6 +75,10 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -90,6 +95,6 @@
     }
   },
   "cli": {
-    "analytics": "9676ae59-aeb1-47a5-9688-76de64295fff"
+    "analytics": false
   }
 }

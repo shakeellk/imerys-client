@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, inject, Optional, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../user-service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,11 @@ import { UserService } from '../user-service';
   styleUrls: ['./login.css']
 })
 export class Login {
+   auth:AuthService|null=null;
+  constructor(){ const platformId = inject(PLATFORM_ID);
+    if (isPlatformBrowser(platformId)) {
+      this.auth = inject(AuthService);
+    }}
   private router = inject(Router);
   private userService = inject(UserService);
   private fb = inject(FormBuilder);
@@ -51,4 +57,7 @@ export class Login {
   }
 
   username = this.userService.getData();
+authenticate(){
+  this.auth?.loginWithRedirect()
+}
 }

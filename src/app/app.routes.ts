@@ -9,7 +9,7 @@ import { Administration } from './administration/administration';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
