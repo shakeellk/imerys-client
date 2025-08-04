@@ -4,6 +4,8 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../user-service';
 import { AuthService } from '@auth0/auth0-angular';
+import { OKTA_AUTH } from '@okta/okta-angular';
+import OktaAuth from '@okta/okta-auth-js';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +15,17 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./login.css']
 })
 export class Login {
-   auth:AuthService|null=null;
-  constructor(){ const platformId = inject(PLATFORM_ID);
-    if (isPlatformBrowser(platformId)) {
-      this.auth = inject(AuthService);
-    }}
+  oktaauth:OktaAuth|null=null; 
+  constructor(private route:Router){
+    const platformId=inject(PLATFORM_ID);
+
+    if(isPlatformBrowser(platformId)){
+       
+      this.oktaauth=inject(OKTA_AUTH)
+          
+    }
+
+  }
   private router = inject(Router);
   private userService = inject(UserService);
   private fb = inject(FormBuilder);
@@ -58,6 +66,7 @@ export class Login {
 
   username = this.userService.getData();
 authenticate(){
-  this.auth?.loginWithRedirect()
+  
+ this.oktaauth?.signInWithRedirect()
 }
 }

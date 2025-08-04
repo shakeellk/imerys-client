@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '@auth0/auth0-angular';
+import { OktaAuthStateService } from '@okta/okta-angular';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,RouterLink],
@@ -10,13 +10,19 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrl: './app.css'
 })
 export class App {
-// auth:AuthService|null=null;
-//   constructor(private router:Router){ const platformId = inject(PLATFORM_ID);
-//     if (isPlatformBrowser(platformId)) {
-//       this.auth = inject(AuthService);
-//       this.auth.isAuthenticated$.subscribe((val)=>{
-//         if(val){
-//          this.router.navigateByUrl('dashboard')}
-//       })
-//     }}
+private authstate:OktaAuthStateService|null=null
+  constructor(private route:Router){
+
+    const platformId=inject(PLATFORM_ID);
+    if(isPlatformBrowser(platformId)){
+      this.authstate=inject(OktaAuthStateService)
+     
+      this.authstate.authState$.subscribe((s)=>{
+        if(s.isAuthenticated){
+          this.route.navigateByUrl('dashboard')
+          
+        }
+      })
+    }
+  }
 }

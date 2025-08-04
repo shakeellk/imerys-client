@@ -2,17 +2,23 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { App } from './app/app';
 import 'zone.js'
-import { provideAuth0 } from '@auth0/auth0-angular';
+import { importProvidersFrom } from '@angular/core';
+import { OktaAuthModule } from '@okta/okta-angular';
+import OktaAuth from '@okta/okta-auth-js';
+const oktaAuth=new OktaAuth({
+   issuer:'https://dev-94075059.okta.com',
+   clientId:'0oapvpdztsvpcuZca5d7',
+   redirectUri: window.location.origin + '/dashboard',
+  scopes: ['openid', 'profile', 'email'],
+  pkce: true
+
+})
 bootstrapApplication(App, {
   providers:[
     appConfig.providers??[],
-     provideAuth0({
-      domain: 'dev-ponorztk35bkng7j.us.auth0.com',
-      clientId: '3JgE06m85utm0xndGjBMXY8KjhTN5CO2',
-      authorizationParams: {
-       redirect_uri:window.location.origin +'/dashboard'
-      }
-    })
+     importProvidersFrom(
+      OktaAuthModule.forRoot({oktaAuth})
+    )
   ]
 })
   .catch((err) => console.error(err));
