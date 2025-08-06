@@ -67,6 +67,7 @@ export class Login {
   username = this.userService.getData();
 authenticate(){
   
- this.oktaauth?.signInWithRedirect()
+ this.oktaauth?.signInWithRedirect();
+ console.log("running")
 }
 }

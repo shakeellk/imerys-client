@@ -1,10 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardLgImage, MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { UserService } from '../user-service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ import { Router } from '@angular/router';
     FormsModule,
     MatCardModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ],
   templateUrl: './home.html',
   styles: [`
@@ -143,10 +145,12 @@ export class Home {
   showMarketCodes = false;
   filterButtonActive = false;
   selectedRows: boolean[] = [];
-
-  constructor(private router: Router) {
+  userData :any = [];
+  constructor(private router: Router,private userservice:UserService) {
     this.selectedRows = new Array(this.tableData.length).fill(false);
+    
   }
+  
 
   navigateToLogin(): void {
     this.router.navigate(['/login']);
@@ -175,5 +179,58 @@ export class Home {
 
   checkboxChanged(index: number) {
     console.log(`Checkbox ${index} changed to ${this.selectedRows[index]}`);
+  }
+  customer = new FormGroup({
+    BA_Origin: new FormControl(''),
+    Customer_Group_Calc: new FormControl(''),
+    Cust_Name: new FormControl(''),
+    Cust_No: new FormControl(''),
+    Cust_Elim_or_Name: new FormControl(''),
+    Cust_Sales_Area: new FormControl(''),
+    Company_Code: new FormControl(''),
+    Company_Full_Name: new FormControl(''),
+    Segment: new FormControl(''),
+    Sales_Person_Name: new FormControl(''),
+    Market_Code: new FormControl(''),
+    Operational_Hub_Code: new FormControl(''),
+    Operational_Site_Group: new FormControl(''),
+    Plant_Code: new FormControl(''),
+    Plant_Name: new FormControl(''),
+    Commercial_Name: new FormControl(''),
+    Package_Type: new FormControl(''),
+    Product_Code: new FormControl(''),
+    Mineral_Calc: new FormControl(''),
+    SOP_Mineral_Group: new FormControl(''),
+  });
+
+   customersFields = [
+    {id: 1, name: 'BA_Origin' },
+    {id: 2, name: 'Customer_Group_Calc' },
+    {id: 3, name: 'Cust_Name' },
+    {id: 4, name: 'Cust_No' },
+    {id: 5, name: 'Cust_Elim_or_Name' },
+    {id: 6, name: 'Cust_Sales_Area' },
+    {id: 7, name: 'Company_Code' },
+    {id: 8, name: 'Company_Full_Name' },
+    {id: 9, name: 'Segment' },
+    {id: 10, name: 'Sales_Person_Name' },
+    {id: 11, name: 'Market_Code' },
+    {id: 12, name: 'Operational_Hub_Code' },
+    {id: 13, name: 'Operational_Site_Group' },
+    {id: 14, name: 'Plant_Code' },
+    {id: 15, name: 'Plant_Name' },
+    {id: 16, name: 'Commercial_Name' },
+    {id: 17, name: 'Package_Type' },
+    {id: 18, name: 'Product_Code' },
+    {id: 19, name: 'Mineral_Calc' },
+    {id: 20, name: 'SOP_Mineral_Group' },
+  ];
+
+   handleCustomerSearch() {
+    this.userservice.handleSearch(this.customer);
+    this.userData = this.userservice.userData;
+    console.log(this.userData);
+    
+    
   }
 }

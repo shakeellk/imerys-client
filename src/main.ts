@@ -6,8 +6,8 @@ import { importProvidersFrom } from '@angular/core';
 import { OktaAuthModule } from '@okta/okta-angular';
 import OktaAuth from '@okta/okta-auth-js';
 const oktaAuth=new OktaAuth({
-   issuer:'https://dev-94075059.okta.com',
-   clientId:'0oapvpdztsvpcuZca5d7',
+   issuer:'https://integrator-1921854.okta.com',
+   clientId:'0oatwmcugsWjiMZxN697',
    redirectUri: window.location.origin + '/dashboard',
   scopes: ['openid', 'profile', 'email'],
   pkce: true
