@@ -14,7 +14,7 @@
           class="bg-[#D9D9D9] px-3 py-2 flex items-center justify-between cursor-pointer">
         
           <h5 class="text-sm font-medium mb-3">Site Group selected</h5>
-          <img src="../../../assets/icons/filter.png" class="w-4 h-4 mb-3" />
+          <img src="../../../assets/icons/dropmenu.png" class="w-4 h-4 mb-3 font-bold" />
         </mat-card-header>
 
         <mat-card-content *ngIf="showSiteGroups" class="bg-white px-3 py-2 border border-[#2F2F2F45]">
@@ -30,7 +30,7 @@
         <mat-card-header (click)="toggleSection('baOrigins')"
           class="bg-[#D9D9D9] px-3 py-2 flex items-center justify-between cursor-pointer">
           <h5 class="text-sm font-medium mb-3">BA Origin</h5>
-          <img src="../../../assets/icons/filter.png" class="w-4 h-4 mb-3" />
+          <img src="../../../assets/icons/dropmenu.png" class="w-4 h-4 mb-3" />
         
         </mat-card-header>
 
@@ -47,7 +47,7 @@
         <mat-card-header (click)="toggleSection('marketCodes')"
           class="bg-[#D9D9D9] px-3 py-2 flex items-center justify-between cursor-pointer">
           <h5 class="text-sm font-medium mb-3">Market Code</h5>
-          <img src="../../../assets/icons/filter.png" class="w-4 h-4 mb-3" />
+          <img src="../../../assets/icons/dropmenu.png" class="w-4 h-4 mb-3" />
         </mat-card-header>
 
         <mat-card-content *ngIf="showMarketCodes" class="bg-white px-3 py-2 border border-[#2F2F2F45]">
@@ -72,7 +72,7 @@
 
     <!-- Tab Buttons -->
     <div class="mt-5">
-      <div class="flex items-center justify-start gap-3 z-100">
+      <div class="flex items-center justify-start gap-0.5 z-100">
         <div *ngFor="let tab of tabs" (click)="setActiveTab(tab.name)" [ngClass]="{
             'bg-[#505050] text-white': tab.name === activeTab,
             'bg-white text-black': tab.name !== activeTab
@@ -84,7 +84,7 @@
     </div>
 
     <!-- Form Section -->
-    <div   class="w-full bg-[#D9D9D9] rounded-lg p-5 mt-5">
+    <div   class="w-full bg-[#D9D9D9] rounded-lg p-5">
       <form [formGroup]="customer" *ngIf="activeTab === 'Customer'" class="w-full" (submit)="handleCustomerSearch()">
         <div class="w-full grid grid-cols-7 items-center justify-center gap-4">
           <div *ngFor="let field of customersFields">
@@ -145,7 +145,9 @@
       <!-- Rows -->
       <div *ngFor="let item of userData[userData.length - 1]" class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
         <div class="flex items-center justify-center ">
-          <div class="h-8 w-8 bg-neutral-300 rounded-full"></div>
+          <div class="">
+            <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]">
+          </div>
         </div>
         <div  class="flex items-center justify-center h-full border-x border-[#959595]">
           <span class="text-sm text-black">{{ item.ba_origin }}</span>

@@ -5,7 +5,11 @@ interface navItem {
 }
 
 export const navItems:navItem[] = [
-
+    {
+        id: 6,
+        iconName: 'Home',
+        filename: 'home.png'
+    },
     {
         id: 1,
         iconName: 'Administration',

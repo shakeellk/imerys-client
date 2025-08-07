@@ -1,35 +1,51 @@
 <div class="w-full flex items-center justify-start">
   <!-- Sidebar -->
-  <div class="w-[16%]">
-    <app-sidebar />
-  </div>
 
   <!-- Main Content -->
-  <div class="w-[84%]">
+  <div class="w-full">
     <!-- Top Header -->
-    <div class="bg-[#2F2F2F] fixed top-0 px-5 w-[84%] flex items-center justify-between h-14 z-50">
+    <div class="bg-[#2F2F2F] fixed top-0 px-5 py-2 w-full z-50">
       <!-- Left: Menu + Welcome -->
-      <div class="flex items-center justify-center gap-5">
-        <div>
-          <img src="/assets/icons/menu.png" alt="menu" class="cursor-pointer" />
+      <div class="w-full flex items-center justify-between ">
+        <div class="flex items-center justify-center gap-16">
+          <div>
+            <img src="/assets/imerys.svg" alt="menu" class="cursor-pointer w-20 h-14 object-cover" />
+          </div>
+          <h4 class="text-lg font-semibold text-white">Welcome, Lal Prasad</h4>
         </div>
-        <h4 class="text-lg font-semibold text-white">Welcome,</h4>
+
+        <!-- Right: Just Profile Icon (no routing) -->
+        <div>
+          <img src="../../assets/icons/profile.png" alt="Profile" class="cursor-pointer h-8 w-8" />
+        </div>
       </div>
 
-      <!-- Right: Just Profile Icon (no routing) -->
-      <div>
-        <img
-          src="../../assets/icons/profile.png"
-          alt="Profile"
-          class="cursor-pointer h-8 w-8"
-        />
+      <div class="flex items-center justify-between ml-36 text-white my-2.5">
+        <div class="flex items-center justify-center gap-10">
+          @for(item of navItems; track item.id){
+          <div class="flex items-center justify-center gap-3 cursor-pointer">
+            <div>
+              <img src="/assets/icons/{{item.filename}}" alt={{item.filename}} class="w-7">
+            </div>
+            <h3 class="text-sm">
+              {{item.iconName}}
+            </h3>
+          </div>
+          }
+        </div>
+        <div class="">
+          <button class="flex items-center justify-center gap-2 w-full cursor-pointer">
+            <img src="/assets/icons/logout.png" alt="" class="w-6">
+            <span class="text-md ">Logout</span>
+        </button>
+        </div>
       </div>
     </div>
 
     <!-- Main Component Area -->
-    <div class="bg-white mt-14 text-black p-5">
+    <div class="bg-white mt-28 text-black p-5">
       <!-- <app-home /> -->
-      <router-outlet/>
+      <router-outlet />
     </div>
   </div>
 </div>

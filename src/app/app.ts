@@ -1,11 +1,8 @@
-import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import {  RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,RouterLink],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
