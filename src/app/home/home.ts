@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../user-service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home',
@@ -211,6 +211,7 @@ export class Home {
     Product_Code: new FormControl(''),
     Mineral_Calc: new FormControl(''),
     SOP_Mineral_Group: new FormControl(''),
+    page: new FormControl(1)
   });
 
   customersFields = [
@@ -237,10 +238,14 @@ export class Home {
   ];
 
   handleCustomerSearch() {
-    this.userservice.handleSearch(this.customer);
+    this.userservice.handleSearch(this.customer, 1);
     this.userData = this.userservice.userData;
     console.log(this.userData);
+  }
 
-
+  onPageChange(e:PageEvent){
+    this.userservice.handleSearch(this.customer, e.pageIndex+1);
+    this.userData = this.userservice.userData;
+    console.log(this.userData);
   }
 }

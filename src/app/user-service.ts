@@ -35,7 +35,7 @@ export class UserService {
   changeData(data:string){
     this.user = data;
   }
- searchCustomers(customer: FormGroup): Observable<any> {
+ searchCustomers(customer: FormGroup, currentPage:number): Observable<any> {
     return this.http.get('http://nodejs-app-env.eba-kxgefpxt.ap-south-1.elasticbeanstalk.com/api/customers/search', {
       params: {
         BA_Origin: customer.get('BA_Origin')?.value,
@@ -45,19 +45,20 @@ export class UserService {
         Cust_Elim_or_Name: customer.get('Cust_Elim_or_Name')?.value,
         Cust_Sales_Area: customer.get('Cust_Sales_Area')?.value,
         Company_Code: customer.get('Company_Code')?.value,
-        Company_Full_Name: customer.get('Company_Full_Name')?.value
+        Company_Full_Name: customer.get('Company_Full_Name')?.value,
+        page: currentPage
       }
     });
   }
 
   userData:any = [];
 
-  handleSearch(customer: FormGroup) {
+  handleSearch(customer: FormGroup, currentPage: number) {
     try {
-      const response = this.searchCustomers(customer);
+      const response = this.searchCustomers(customer, currentPage);
       response.subscribe(data => {
         this.userData.push(data.customers);
-        console.log(this.userData);
+        console.log(data);
       });
       
       
