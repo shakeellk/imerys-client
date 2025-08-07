@@ -223,12 +223,21 @@
           <span class="text-sm text-black">{{ item.company_code }}</span>
         </div>
       </div>
+<<<<<<< HEAD
 
       <mat-paginator
         [length]="100"
         [pageSize]="10"
         aria-label="Select page"
         (page)="onPageChange($event)"
+=======
+      <mat-paginator 
+      [length]="paginatorCount"
+      [pageSize]="10" 
+      aria-label="Select page"
+      (page)="onPageChange($event)"
+      onchange="onPageChange($event)"
+>>>>>>> 206699814c97ef15aeca934050274a0341c23eac
       >
       </mat-paginator>
     </div>
