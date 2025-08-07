@@ -8,15 +8,16 @@
       <h5 class="font-medium text-sm">Select</h5> <!-- Changed from text-xs to text-sm -->
     </div>
 
-    <div class="w-full grid grid-cols-3 items-start gap-2"> <!-- Site Group -->
+    <div class="w-full flex items-start justify-start gap-10"> <!-- Site Group -->
       <mat-card class="w-60 border border-[#8E8E8E] rounded-md">
         <mat-card-header (click)="toggleSection('siteGroups')"
           class="bg-[#D9D9D9] px-3 py-2 flex items-center justify-between cursor-pointer">
-          <h5 class="text-sm font-medium">Site Group selected</h5>
-          <img src="../../../assets/icons/filter.png" class="w-4 h-4" />
+        
+          <h5 class="text-sm font-medium mb-3">Site Group selected</h5>
+          <img src="../../../assets/icons/filter.png" class="w-4 h-4 mb-3" />
         </mat-card-header>
 
-        <mat-card-content *ngIf="showSiteGroups" class="bg-white px-3 py-2">
+        <mat-card-content *ngIf="showSiteGroups" class="bg-white px-3 py-2 border border-[#2F2F2F45]">
           <mat-checkbox *ngFor="let group of siteGroups" [(ngModel)]="group.selected"
             class="checked:accent-[#2F2F2F] block py-1" style="width: 198px; height: 40px; border-radius: 4px;">
             {{ group.name }}
@@ -28,11 +29,12 @@
       <mat-card class="w-60 border border-[#8E8E8E] rounded-md">
         <mat-card-header (click)="toggleSection('baOrigins')"
           class="bg-[#D9D9D9] px-3 py-2 flex items-center justify-between cursor-pointer">
-          <h5 class="text-sm font-medium">BA Origin</h5>
-          <img src="../../../assets/icons/filter.png" class="w-4 h-4" />
+          <h5 class="text-sm font-medium mb-3">BA Origin</h5>
+          <img src="../../../assets/icons/filter.png" class="w-4 h-4 mb-3" />
+        
         </mat-card-header>
 
-        <mat-card-content *ngIf="showBAOrigins" class="bg-white px-3 py-2">
+        <mat-card-content *ngIf="showBAOrigins" class="bg-white px-3 py-2 border border-[#2F2F2F45]">
           <mat-checkbox *ngFor="let origin of baOrigins" [(ngModel)]="origin.selected" class="block py-1"
             style="width: 198px; height: 40px; border-radius: 4px;">
             {{ origin.name }}
@@ -44,11 +46,11 @@
       <mat-card class="w-60 border border-[#8E8E8E] rounded-md">
         <mat-card-header (click)="toggleSection('marketCodes')"
           class="bg-[#D9D9D9] px-3 py-2 flex items-center justify-between cursor-pointer">
-          <h5 class="text-sm font-medium">Market Code</h5>
-          <img src="../../../assets/icons/filter.png" class="w-4 h-4" />
+          <h5 class="text-sm font-medium mb-3">Market Code</h5>
+          <img src="../../../assets/icons/filter.png" class="w-4 h-4 mb-3" />
         </mat-card-header>
 
-        <mat-card-content *ngIf="showMarketCodes" class="bg-white px-3 py-2">
+        <mat-card-content *ngIf="showMarketCodes" class="bg-white px-3 py-2 border border-[#2F2F2F45]">
           <mat-checkbox *ngFor="let market of marketCodes" [(ngModel)]="market.selected" class="block py-1"
             style="width: 198px; height: 40px; border-radius: 4px;">
             {{ market.name }}
@@ -72,40 +74,41 @@
     <div class="mt-5">
       <div class="flex items-center justify-start gap-3 z-100">
         <div *ngFor="let tab of tabs" (click)="setActiveTab(tab.name)" [ngClass]="{
-            'bg-[#2F2F2F] text-white': tab.name === activeTab,
+            'bg-[#505050] text-white': tab.name === activeTab,
             'bg-white text-black': tab.name !== activeTab
           }"
-          class="border border-[#8E8E8E] px-4 py-2 flex items-center justify-center cursor-pointer text-sm font-medium rounded-md"
-          style="width: 120px; height: 40px;">
+          class="border border-[#8E8E8E] px-4 py-3.5 flex items-center justify-center cursor-pointer text-sm font-medium w-52">
           <h4>{{ tab.name }}</h4>
         </div>
       </div>
     </div>
 
     <!-- Form Section -->
-    <div   class="w-full bg-[#D9D9D9] rounded-lg p-5 mt-5 overflow-hidden">
-      <form [formGroup]="customer" *ngIf="activeTab === 'Customer'" class="w-full grid grid-cols-7 items-center justify-center gap-4">
-        <div *ngFor="let field of customersFields">
-          <input type="text" [placeholder]="field.name" formControlName={{field.name}}
-            class="p-2 rounded-lg bg-transparent border border-[#8E8E8E] w-40 text-sm placeholder:text-black placeholder:text-center" />
+    <div   class="w-full bg-[#D9D9D9] rounded-lg p-5 mt-5">
+      <form [formGroup]="customer" *ngIf="activeTab === 'Customer'" class="w-full" (submit)="handleCustomerSearch()">
+        <div class="w-full grid grid-cols-7 items-center justify-center gap-4">
+          <div *ngFor="let field of customersFields">
+            <input type="text" [placeholder]="field.name" formControlName={{field.name}}
+              class="p-2 rounded-lg bg-transparent border border-[#8E8E8E] w-full text-sm placeholder:text-black placeholder:text-center" />
+          </div>
         </div>
         <!-- Buttons aligned right -->
 
+        <div class="w-full flex justify-end gap-3 mt-6">
+          <button class="bg-[#2F2F2F] text-white font-medium rounded-md text-sm"
+            style="padding: 10px 20px; height: 44px; min-width: 90px;">
+            Reset
+          </button>
+          <button  type="submit" class="bg-[#2F2F2F] text-white font-medium rounded-md text-sm"
+            style="padding: 10px 20px; height: 44px; min-width: 90px;">
+            Search
+          </button>
+        </div>
       </form>
 
       <form *ngIf="activeTab === 'Company Info'">Company Info</form>
       <form *ngIf="activeTab === 'Market'">Market</form>
 
-      <div class="w-full flex justify-end gap-3 mt-6 pr-5">
-        <button class="bg-[#2F2F2F] text-white font-medium rounded-md text-sm"
-          style="padding: 10px 20px; height: 44px; min-width: 90px;">
-          Reset
-        </button>
-        <button (click)="handleCustomerSearch()" class="bg-[#2F2F2F] text-white font-medium rounded-md text-sm"
-          style="padding: 10px 20px; height: 44px; min-width: 90px;">
-          Search
-        </button>
-      </div>
 
     </div>
 
@@ -114,7 +117,7 @@
     </div>
 
     <!-- Filter Button -->
-    <div class="mt-5">
+    <div class="mt-5" *ngIf="userData.length > 0">
       <div class="flex items-center justify-between">
         <span></span>
         <button (click)="handleFilterButtonClick()"
