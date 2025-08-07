@@ -125,74 +125,25 @@
     <div class="mt-5" *ngIf="userData.length > 0">
       <div class="flex items-center justify-between">
         <span></span>
-        <button (click)="handleFilterButtonClick()"
+        <div class="flex items-center justify-center gap-5">
+          <button class="bg-[#2F2F2F] cursor-pointer p-1 rounded-full" *ngIf="selectAllChecked" (click)="onSelectAll()">
+            <img src="/assets/icons/check.png" alt="check" class="w-6">
+          </button>
+          <button class="cursor-pointer p-1 rounded-full" *ngIf="selectAllChecked">
+            <img src="/assets/icons/delete.png" alt="check" class="w-7">
+          </button>
+          <button (click)="handleFilterButtonClick()"
           class="flex items-center justify-center gap-2 bg-[#2F2F2F] text-white rounded-lg text-sm cursor-pointer"
           style="width: 140px; height: 50px;">
           <img src="../../../assets/icons/filter.png" alt="" class="w-6" />
           <span>Filter</span>
         </button>
+        </div>
       </div>
     </div>
 
-    <!-- Table -->
-    <div class="mt-5 w-full" *ngIf="userData.length > 0">
-      <div class="bg-[#8E8E8E] w-full py-4">
-        <div class="w-full grid grid-cols-8 items-center justify-center">
-          <div class="w-full flex items-center justify-center">
-            <div class="h-8 w-8 bg-[#2F2F2F] rounded-lg text-center"></div>
-          </div>
-          <div *ngFor="let item of inputs" class="text-center text-sm font-medium">
-            <h5>{{ item.name }}</h5>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rows -->
-
-      <div *ngFor="let item of userData[userData.length - 1]"
-        class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
-        <div class="flex items-center justify-center ">
-          <div class="">
-            <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]">
-          </div>
-        </div>
-        <div class="flex items-center justify-center h-full border-x border-[#959595]">
-          <span class="text-sm text-black">{{ item.ba_origin }}</span>
-        </div>
-
-        <div class="flex items-center justify-center h-full border-x border-[#959595]">
-          <span class="text-sm text-black">{{ item.customer_group_calc }}</span>
-        </div>
-        <div class="flex items-center justify-center h-full border-x border-[#959595]">
-          <span class="text-sm text-black">{{ item.cust_name }}</span>
-        </div>
-        <div class="flex items-center justify-center h-full border-x border-[#959595]">
-          <span class="text-sm text-black">{{ item.cust_no }}</span>
-        </div>
-        <div class="flex items-center justify-center h-full border-x border-[#959595]">
-          <span class="text-sm text-black">{{ item.cust_elim_or_name }}</span>
-        </div>
-        <div class="flex items-center justify-center h-full border-x border-[#959595] overflow-hidden">
-          <span class="text-sm text-black">{{ item.cust_sales_area }}</span>
-        </div>
-        <div class="flex items-center justify-center h-full border-x border-[#959595]">
-          <span class="text-sm text-black">{{ item.company_code }}</span>
-        </div>
-      </div>
-      <mat-paginator 
-      [length]="paginatorCount"
-      [pageSize]="10" 
-      aria-label="Select page"
-      (page)="onPageChange($event)"
-      onchange="onPageChange($event)"
-      >
-      </mat-paginator>
-    </div>
-  </div>
-
-  <!-- Filter Panel -->
-  <div [hidden]="!filterButtonActive"
-    class="w-[70%] bg-white h-auto shadow-2xl bg-opacity-90 border border-[#2F2F2F] absolute top-[35%] left-[23%] p-5">
+    <div [hidden]="!filterButtonActive"
+    class="w-[70%] bg-white h-auto shadow-2xl bg-opacity-90 border border-[#2F2F2F] absolute top-[50%] left-[15%] p-5">
     <div class="w-full h-full relative">
       <div class="absolute right-0 top-0">
         <div class="p-2 shadow-xl border rounded-full border-[#2F2F2F] cursor-pointer bg-white"
@@ -221,4 +172,90 @@
       </div>
     </div>
   </div>
+
+    <!-- Table -->
+    <div class="mt-5 w-full" *ngIf="userData.length > 0">
+      <div class="bg-[#8E8E8E] w-full py-4">
+        <div class="w-full grid grid-cols-8 items-center justify-center">
+          <div class="w-full flex items-center justify-center">
+            <div class="">
+              <input type="checkbox" class="w-6 h-6 accent-[#2F2F2F] bg-[#2F2F2F]" [checked]="selectAllChecked" (click)="onSelectAll()">
+            </div>
+          </div>
+          <div *ngFor="let item of inputs" class="text-center text-sm font-medium">
+            <h5>{{ item.name }}</h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rows -->
+
+      <div *ngFor="let item of userData[userData.length - 1]">
+        <div *ngIf="!selectAllChecked" class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
+          <div class="flex items-center justify-center">
+            <div class="">
+              <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" [checked]="selectAllChecked">
+            </div>
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <span class="text-sm text-black">{{ item.ba_origin }}</span>
+          </div>
+
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <span class="text-sm text-black">{{ item.customer_group_calc }}</span>
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <span class="text-sm text-black">{{ item.cust_name }}</span>
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <span class="text-sm text-black">{{ item.cust_no }}</span>
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <span class="text-sm text-black">{{ item.cust_elim_or_name }}</span>
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595] overflow-hidden">
+            <span class="text-sm text-black">{{ item.cust_sales_area }}</span>
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <span class="text-sm text-black">{{ item.company_code }}</span>
+          </div>
+        </div>
+        <div *ngIf="selectAllChecked" class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
+          <div class="flex items-center justify-center">
+            <div class="">
+              <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" [checked]="selectAllChecked">
+            </div>
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <input class="text-sm text-black outline-none h-full" value="{{item.ba_origin}}" />
+          </div>
+
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <input class="text-sm text-black outline-none h-full" value="{{ item.customer_group_calc }}" />
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_name }}" />
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_no }}" />
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_elim_or_name }}" />
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595] overflow-hidden">
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_sales_area }}" />
+          </div>
+          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+            <input class="text-sm text-black outline-none h-full" value="{{ item.company_code }}" />
+          </div>
+        </div>
+      </div>
+      <mat-paginator [length]="paginatorCount" [pageSize]="10" aria-label="Select page" (page)="onPageChange($event)"
+        onchange="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </div>
+
+  <!-- Filter Panel -->
+  
 </div>

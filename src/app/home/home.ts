@@ -160,7 +160,7 @@ export class Home {
     })
     this.userservice.paginatorCount.subscribe(data => {
       this.paginatorCount = data;
-    })
+    });
 
   }
 
@@ -255,6 +255,14 @@ export class Home {
   onPageChange(e:PageEvent){
     this.userservice.handleSearch(this.customer, e.pageIndex+1);
     this.userData = this.userservice.userData;
+    window.scrollTo({
+      top: 250
+    });
     console.log(this.userData);
+  }
+
+  selectAllChecked:boolean = false;
+  onSelectAll(){
+    this.selectAllChecked = !this.selectAllChecked;
   }
 }
