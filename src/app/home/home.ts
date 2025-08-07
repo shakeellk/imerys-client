@@ -158,6 +158,9 @@ export class Home {
     this.customerData = this.fb.group({
       username:['']
     })
+    this.userservice.paginatorCount.subscribe(data => {
+      this.paginatorCount = data;
+    })
 
   }
 
@@ -237,10 +240,16 @@ export class Home {
     { id: 20, name: 'SOP_Mineral_Group' },
   ];
 
+  paginatorCount:any;
+
   handleCustomerSearch() {
     this.userservice.handleSearch(this.customer, 1);
     this.userData = this.userservice.userData;
+    this.userservice.paginatorCount.subscribe(data => {
+      this.paginatorCount = data;
+    })
     console.log(this.userData);
+    console.log(this.paginatorCount);
   }
 
   onPageChange(e:PageEvent){

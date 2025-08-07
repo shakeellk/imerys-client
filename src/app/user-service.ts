@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Interface } from 'readline';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -52,13 +52,16 @@ export class UserService {
   }
 
   userData:any = [];
+  paginatorCount = new Subject<number>();
 
   handleSearch(customer: FormGroup, currentPage: number) {
     try {
       const response = this.searchCustomers(customer, currentPage);
       response.subscribe(data => {
         this.userData.push(data.customers);
+        this.paginatorCount.next(data.totalRecords);
         console.log(data);
+        console.log(this.paginatorCount);
       });
       
       
