@@ -44,7 +44,8 @@ export class UserService {
         Cust_No: customer.get('Cust_No')?.value,
         Cust_Elim_or_Name: customer.get('Cust_Elim_or_Name')?.value,
         Cust_Sales_Area: customer.get('Cust_Sales_Area')?.value,
-        Company_Code: customer.get('Company_Code')?.value
+        Company_Code: customer.get('Company_Code')?.value,
+        Company_Full_Name: customer.get('Company_Full_Name')?.value
       }
     });
   }

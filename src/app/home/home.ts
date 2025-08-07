@@ -1,11 +1,14 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardLgImage, MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { UserService } from '../user-service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +20,10 @@ import { UserService } from '../user-service';
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatPaginatorModule
   ],
   templateUrl: './home.html',
   styles: [`
@@ -57,7 +63,7 @@ import { UserService } from '../user-service';
     justify-content: center;
     gap: 8px;
   }
-`]
+`],
 
 })
 export class Home {
@@ -65,7 +71,7 @@ export class Home {
   filterIcon = 'assets/icons/filter.png';
   searchIcon = 'assets/icons/search.png';
   closeIcon = 'assets/icons/close.png';
-  
+
   // Data arrays
   siteGroups = [
     { id: 1, name: 'Site Group 1', selected: false },
@@ -121,14 +127,14 @@ export class Home {
   ];
 
   tableData = [
-    { 
-      baOrigin: 'Value 1', 
-      custGroup: 'Value 1', 
-      custName: 'Value 1', 
-      custNo: 'Value 1', 
-      custElimOrName: 'Value 1', 
-      custSalesArea: 'Value 1', 
-      companyCode: 'Value 1' 
+    {
+      baOrigin: 'Value 1',
+      custGroup: 'Value 1',
+      custName: 'Value 1',
+      custNo: 'Value 1',
+      custElimOrName: 'Value 1',
+      custSalesArea: 'Value 1',
+      companyCode: 'Value 1'
     },
   ];
 
@@ -145,12 +151,16 @@ export class Home {
   showMarketCodes = false;
   filterButtonActive = false;
   selectedRows: boolean[] = [];
-  userData :any = [];
-  constructor(private router: Router,private userservice:UserService) {
+  userData: any = [];
+  customerData!: FormGroup;
+  constructor(private router: Router, private userservice: UserService,private fb:FormBuilder) {
     this.selectedRows = new Array(this.tableData.length).fill(false);
-    
+    this.customerData = this.fb.group({
+      username:['']
+    })
+
   }
-  
+
 
   navigateToLogin(): void {
     this.router.navigate(['/login']);
@@ -162,7 +172,7 @@ export class Home {
   }
 
   toggleSection(section: string) {
-    switch(section) {
+    switch (section) {
       case 'siteGroups': this.showSiteGroups = !this.showSiteGroups; break;
       case 'baOrigins': this.showBAOrigins = !this.showBAOrigins; break;
       case 'marketCodes': this.showMarketCodes = !this.showMarketCodes; break;
@@ -203,34 +213,34 @@ export class Home {
     SOP_Mineral_Group: new FormControl(''),
   });
 
-   customersFields = [
-    {id: 1, name: 'BA_Origin' },
-    {id: 2, name: 'Customer_Group_Calc' },
-    {id: 3, name: 'Cust_Name' },
-    {id: 4, name: 'Cust_No' },
-    {id: 5, name: 'Cust_Elim_or_Name' },
-    {id: 6, name: 'Cust_Sales_Area' },
-    {id: 7, name: 'Company_Code' },
-    {id: 8, name: 'Company_Full_Name' },
-    {id: 9, name: 'Segment' },
-    {id: 10, name: 'Sales_Person_Name' },
-    {id: 11, name: 'Market_Code' },
-    {id: 12, name: 'Operational_Hub_Code' },
-    {id: 13, name: 'Operational_Site_Group' },
-    {id: 14, name: 'Plant_Code' },
-    {id: 15, name: 'Plant_Name' },
-    {id: 16, name: 'Commercial_Name' },
-    {id: 17, name: 'Package_Type' },
-    {id: 18, name: 'Product_Code' },
-    {id: 19, name: 'Mineral_Calc' },
-    {id: 20, name: 'SOP_Mineral_Group' },
+  customersFields = [
+    { id: 1, name: 'BA_Origin' },
+    { id: 2, name: 'Customer_Group_Calc' },
+    { id: 3, name: 'Cust_Name' },
+    { id: 4, name: 'Cust_No' },
+    { id: 5, name: 'Cust_Elim_or_Name' },
+    { id: 6, name: 'Cust_Sales_Area' },
+    { id: 7, name: 'Company_Code' },
+    { id: 8, name: 'Company_Full_Name' },
+    { id: 9, name: 'Segment' },
+    { id: 10, name: 'Sales_Person_Name' },
+    { id: 11, name: 'Market_Code' },
+    { id: 12, name: 'Operational_Hub_Code' },
+    { id: 13, name: 'Operational_Site_Group' },
+    { id: 14, name: 'Plant_Code' },
+    { id: 15, name: 'Plant_Name' },
+    { id: 16, name: 'Commercial_Name' },
+    { id: 17, name: 'Package_Type' },
+    { id: 18, name: 'Product_Code' },
+    { id: 19, name: 'Mineral_Calc' },
+    { id: 20, name: 'SOP_Mineral_Group' },
   ];
 
-   handleCustomerSearch() {
+  handleCustomerSearch() {
     this.userservice.handleSearch(this.customer);
     this.userData = this.userservice.userData;
     console.log(this.userData);
-    
-    
+
+
   }
 }

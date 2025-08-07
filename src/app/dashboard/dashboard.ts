@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Sidebar } from '../sidebar/sidebar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { navItems } from '../../constants/nav_items';
 import { FormsModule } from '@angular/forms';
 
@@ -15,4 +15,11 @@ import { FormsModule } from '@angular/forms';
 export class Dashboard {
   navItems = navItems;
   img:string = '/assets/icons/menu.png';
+  constructor(private router: Router) { }
+
+  logout(){
+    localStorage.clear();
+    this.router.navigate(['/login']);
+
+  }
 }
