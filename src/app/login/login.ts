@@ -68,6 +68,5 @@ export class Login {
 authenticate(){
   
  this.oktaauth?.signInWithRedirect();
- console.log("running")
 }
 }
