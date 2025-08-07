@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardLgImage, MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../user-service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home',
@@ -153,10 +153,10 @@ export class Home {
   selectedRows: boolean[] = [];
   userData: any = [];
   customerData!: FormGroup;
-  constructor(private router: Router, private userservice: UserService,private fb:FormBuilder) {
+  constructor(private router: Router, private userservice: UserService, private fb: FormBuilder) {
     this.selectedRows = new Array(this.tableData.length).fill(false);
     this.customerData = this.fb.group({
-      username:['']
+      username: ['']
     })
 
   }
@@ -212,6 +212,7 @@ export class Home {
     Mineral_Calc: new FormControl(''),
     SOP_Mineral_Group: new FormControl(''),
     page: new FormControl(1)
+
   });
 
   customersFields = [
@@ -243,9 +244,53 @@ export class Home {
     console.log(this.userData);
   }
 
-  onPageChange(e:PageEvent){
-    this.userservice.handleSearch(this.customer, e.pageIndex+1);
+  onPageChange(e: PageEvent) {
+    this.userservice.handleSearch(this.customer, e.pageIndex + 1);
     this.userData = this.userservice.userData;
     console.log(this.userData);
   }
+  resetData() {
+    this.customer.setValue({
+      BA_Origin: '',
+      Customer_Group_Calc: '',
+      Cust_Name: '',
+      Cust_No: '',
+      Cust_Elim_or_Name: '',
+      Cust_Sales_Area: '',
+      Company_Code: '',
+      Company_Full_Name: '',
+      Segment: '',
+      Sales_Person_Name: '',
+      Market_Code: '',
+      Operational_Hub_Code: '',
+      Operational_Site_Group: '',
+      Plant_Code: '',
+      Plant_Name: '',
+      Commercial_Name: '',
+      Package_Type: '',
+      Product_Code: '',
+      Mineral_Calc: '',
+      SOP_Mineral_Group: '',
+      page: 1
+    });
+
+    // Reset site group checkboxes
+    this.siteGroups.forEach(group => group.selected = false);
+    this.baOrigins.forEach(origin => origin.selected = false);
+    this.marketCodes.forEach(code => code.selected = false);
+
+    // Optional: clear table data
+    this.userData = [];
+  }
+  onSubmit() {
+    if (this.customer.invalid) {
+      this.customer.markAllAsTouched();
+      return;
+    }
+
+    // Proceed with your search only when form is valid
+    this.handleCustomerSearch();
+  }
+
+
 }
