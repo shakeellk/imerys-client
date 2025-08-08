@@ -256,10 +256,11 @@ export class Home {
   }
 
   onPageChange(e: PageEvent) {
+
     this.userservice.handleSearch(this.customer, e.pageIndex + 1);
-    this.userData = this.userservice.userData;
+    // this.userData = this.userservice.userData;
     window.scrollTo({
-      top: 250
+      top: 200
     });
     console.log(this.userData);
   }
