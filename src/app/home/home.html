@@ -83,7 +83,7 @@
 
   <div class="mt-6 w-full">
     <div class="flex items-center justify-start gap-5">
-      <img src="../../../assets/icons/search.png" alt="" class="w-7" />
+      <img src="../../../assets/icons/search.png" alt="Search Icon" class="w-7" />
       <h5 class="font-medium">Search Criteria</h5>
     </div>
 
@@ -104,8 +104,9 @@
       </div>
     </div>
 
-    <!-- Form Section -->
-    <div class="w-full bg-[#D9D9D9] rounded-lg p-5">
+    <!-- Form Sections -->
+    <div class="w-full bg-[#D9D9D9] rounded-lg p-5 mt-5">
+      <!-- Customer Form -->
       <form
         [formGroup]="customer"
         *ngIf="activeTab === 'Customer'"
@@ -113,25 +114,17 @@
         (ngSubmit)="onSubmit()"
         novalidate
       >
-        <div class="w-full grid grid-cols-7 items-center justify-center gap-3">
+        <div class="w-full grid grid-cols-7 gap-3">
           <div *ngFor="let field of customersFields" class="w-full">
-            <input
-              type="text"
-              [placeholder]="field.name"
-              [formControlName]="field.name"
-              class="p-2 rounded-md bg-transparent border w-full text-sm placeholder:text-black placeholder:text-center"
-              [ngClass]="{
-                'border-red-600': customer.get(field.name)?.invalid && (customer.get(field.name)?.touched || customer.get(field.name)?.dirty),
-                'border-[#8E8E8E]': !customer.get(field.name)?.invalid || !(customer.get(field.name)?.touched || customer.get(field.name)?.dirty)
-              }"
-            />
-
-            <div
-              *ngIf="customer.get(field.name)?.invalid && (customer.get(field.name)?.touched || customer.get(field.name)?.dirty)"
-              class="text-red-600 text-xs mt-1 px-1"
-            >
-              {{ field.name }} is required.
-            </div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ field.name }}</mat-label>
+              <input
+                matInput
+                [formControlName]="field.name"
+                autocomplete="off"
+                placeholder="Enter {{ field.name }}"
+              />
+            </mat-form-field>
           </div>
         </div>
 
@@ -142,6 +135,7 @@
             class="bg-[#2F2F2F] text-white font-medium rounded-md text-sm"
             style="padding: 10px 20px; height: 44px; min-width: 90px"
             (click)="resetData()"
+            aria-label="Reset Form"
           >
             Reset
           </button>
@@ -149,14 +143,22 @@
             type="submit"
             class="bg-[#2F2F2F] text-white font-medium rounded-md text-sm cursor-pointer"
             style="padding: 10px 20px; height: 44px; min-width: 90px"
+            aria-label="Search"
           >
             Search
           </button>
         </div>
       </form>
 
-      <form *ngIf="activeTab === 'Company Info'">Company Info</form>
-      <form *ngIf="activeTab === 'Market'">Market</form>
+      <!-- Company Info Form -->
+      <form *ngIf="activeTab === 'Company Info'" class="w-full" novalidate>
+        Company Info
+      </form>
+
+      <!-- Market Form -->
+      <form *ngIf="activeTab === 'Market'" class="w-full" novalidate>
+        Market
+      </form>
     </div>
 
     <div class="mt-5">
@@ -171,8 +173,9 @@
           (click)="handleFilterButtonClick()"
           class="flex items-center justify-center gap-2 bg-[#2F2F2F] text-white rounded-lg text-sm cursor-pointer"
           style="width: 140px; height: 50px"
+          aria-label="Toggle Filter Panel"
         >
-          <img src="../../../assets/icons/filter.png" alt="" class="w-6" />
+          <img src="../../../assets/icons/filter.png" alt="Filter Icon" class="w-6" />
           <span>Filter</span>
         </button>
       </div>
@@ -196,10 +199,8 @@
         *ngFor="let item of userData[userData.length - 1]"
         class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center"
       >
-        <div class="flex items-center justify-center ">
-          <div>
-            <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" />
-          </div>
+        <div class="flex items-center justify-center">
+          <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" />
         </div>
         <div class="flex items-center justify-center h-full border-x border-[#959595]">
           <span class="text-sm text-black">{{ item.ba_origin }}</span>
@@ -223,21 +224,12 @@
           <span class="text-sm text-black">{{ item.company_code }}</span>
         </div>
       </div>
-<<<<<<< HEAD
 
       <mat-paginator
-        [length]="100"
+        [length]="paginatorCount"
         [pageSize]="10"
         aria-label="Select page"
         (page)="onPageChange($event)"
-=======
-      <mat-paginator 
-      [length]="paginatorCount"
-      [pageSize]="10" 
-      aria-label="Select page"
-      (page)="onPageChange($event)"
-      onchange="onPageChange($event)"
->>>>>>> 206699814c97ef15aeca934050274a0341c23eac
       >
       </mat-paginator>
     </div>
@@ -253,16 +245,19 @@
         <div
           class="p-2 shadow-xl border rounded-full border-[#2F2F2F] cursor-pointer bg-white"
           (click)="handleFilterButtonClick()"
+          aria-label="Close Filter Panel"
         >
-          <img src="../../../assets/icons/close.png" alt="" class="w-5 font-medium" />
+          <img src="../../../assets/icons/close.png" alt="Close Icon" class="w-5" />
         </div>
       </div>
       <div class="flex items-center justify-center">
         <button
           class="bg-[#2F2F2F] text-white rounded-lg text-sm flex items-center justify-center gap-1"
           style="width: 140px; height: 50px"
+          type="button"
+          aria-label="Filter Columns"
         >
-          <img src="../../../assets/icons/filter.png" alt="" class="w-6" />
+          <img src="../../../assets/icons/filter.png" alt="Filter Icon" class="w-6" />
           <span>Filter Columns</span>
         </button>
       </div>
@@ -273,10 +268,15 @@
             *ngFor="let item of filterColumns"
             class="flex items-center justify-start gap-3 bg-[#D9D9D9] p-3 rounded-md"
           >
-            <input type="checkbox" [(ngModel)]="item.selected" class="checked:accent-[#2F2F2F] w-6 h-6" />
-            <div class="w-full">
+            <input
+              type="checkbox"
+              [(ngModel)]="item.selected"
+              class="checked:accent-[#2F2F2F] w-6 h-6"
+              id="{{ 'filterCol_' + item.name }}"
+            />
+            <label for="{{ 'filterCol_' + item.name }}" class="w-full cursor-pointer">
               <h5 class="text-sm text-center font-medium">{{ item.name }}</h5>
-            </div>
+            </label>
           </div>
         </div>
       </div>
