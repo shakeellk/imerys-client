@@ -51,7 +51,7 @@ export class UserService {
     });
   }
 
-  userData:any = [];
+  userData = new BehaviorSubject<any>([]);
   paginatorCount = new Subject<number>();
 
   handleSearch(customer: FormGroup, currentPage: number) {
@@ -64,7 +64,7 @@ export class UserService {
             isChecked: false
           }
         });
-        this.userData.push(dataChecked);
+        this.userData.next(dataChecked);
         this.paginatorCount.next(data.totalRecords);
       }, error => {
         console.log(error.error.message);

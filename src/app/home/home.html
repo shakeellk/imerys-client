@@ -89,7 +89,7 @@
     <div class="w-full bg-[#D9D9D9] rounded-lg p-5">
       <form [formGroup]="customer" *ngIf="activeTab === 'Customer'" class="w-full" (submit)="handleCustomerSearch()">
 
-        <div class="w-full grid grid-cols-7 items-center justify-center gap-5">
+        <div class="w-full grid grid-cols-3 md:grid-cols-4  lg:grid-cols-5 xl:grid-cols-7 items-center justify-center gap-5">
           <div *ngFor="let field of customersFields" class="w-full">
             <!-- <input type="text" [placeholder]="field.name" formControlName={{field.name}}
               class="p-2 rounded-md bg-transparent border border-[#8E8E8E] w-full text-sm placeholder:text-black placeholder:text-center" /> -->
@@ -135,7 +135,7 @@
       <div class="flex items-center justify-between">
         <span></span>
         <div class="flex items-center justify-center gap-5">
-          <button class="bg-[#2F2F2F] cursor-pointer p-1 rounded-full" *ngIf="customerSelectedCount > 0"
+          <button class="bg-[#2F2F2F] cursor-pointer p-1 rounded-full" *ngIf="customerSelectedCount > 0 || selectAllChecked"
             (click)="handleCustomerUpdate()">
             <img src="/assets/icons/check.png" alt="check" class="w-6">
           </button>
@@ -207,7 +207,7 @@
 
       <!-- Rows -->
 
-      <div *ngFor="let item of userData[userData.length -1]">
+      <div *ngFor="let item of userData">
         <div *ngIf="!item.isChecked"
           class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
           <div class="flex items-center justify-center">

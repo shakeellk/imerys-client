@@ -162,6 +162,9 @@ export class Home {
     this.userservice.paginatorCount.subscribe(data => {
       this.paginatorCount = data;
     });
+    this.userservice.userData.subscribe(data => {
+      this.userData = data;
+    });
 
   }
 
@@ -245,7 +248,6 @@ export class Home {
 
   handleCustomerSearch() {
     this.userservice.handleSearch(this.customer, 1);
-    this.userData = this.userservice.userData;
     this.userservice.paginatorCount.subscribe(data => {
       this.paginatorCount = data;
     });
@@ -266,7 +268,7 @@ export class Home {
   customerSelectedCount: number = 0;
   onSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
-    console.log(this.userData);
+    // console.log(this.userData);
   }
 
   updateCustomer = new FormGroup({
@@ -283,7 +285,7 @@ export class Home {
   handleUpdate(data: any) {
     console.log(data);
     if (data.id) {
-      this.userData[this.userData.length - 1] = this.userData[this.userData.length - 1].map((item: any) => {
+      this.userData = this.userData.map((item: any) => {
         if (item.id == data.id) {
           return {
             ...item,
@@ -306,33 +308,25 @@ export class Home {
         id: data.id
       });
       this.customerSelectedCount += 1;
-      console.log(this.updateCustomer);
+      // console.log(this.updateCustomer);
     }
   }
-  handleCustomerUpdate(){
+  handleCustomerUpdate() {
     try {
       const response = this.userservice.updateCustomer(this.updateCustomer);
       response.subscribe(data => {
         console.log(data);
-      })
+      });
       this.customerSelectedCount -= 1;
-      this.userData[this.userData.length - 1] = this.userData[this.userData.length - 1].map((item: any) => {
-          if (item.id == this.updateCustomer.get('id')?.value) {
-            return {
-              ...item,
-              isChecked: false
-            }
-          } else {
-            return {
-              ...item
-            }
-          }
-        });
-        
+      
+      // console.log(this.userData);
     } catch (error) {
       console.log(error);
+    } finally{
+      setTimeout(() => {
+        this.handleCustomerSearch()
+      }, 300)
     }
-    this.handleCustomerSearch()
   }
 
 }
