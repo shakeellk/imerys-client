@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 import { UserService } from '../user-service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -153,10 +154,10 @@ export class Home {
   selectedRows: boolean[] = [];
   userData: any = [];
   customerData!: FormGroup;
-  constructor(private router: Router, private userservice: UserService,private fb:FormBuilder) {
+  constructor(private router: Router, private userservice: UserService, private fb: FormBuilder) {
     this.selectedRows = new Array(this.tableData.length).fill(false);
     this.customerData = this.fb.group({
-      username:['']
+      username: ['']
     })
     this.userservice.paginatorCount.subscribe(data => {
       this.paginatorCount = data;
@@ -240,20 +241,20 @@ export class Home {
     { id: 20, name: 'SOP_Mineral_Group' },
   ];
 
-  paginatorCount:any;
+  paginatorCount: any;
 
   handleCustomerSearch() {
     this.userservice.handleSearch(this.customer, 1);
     this.userData = this.userservice.userData;
     this.userservice.paginatorCount.subscribe(data => {
       this.paginatorCount = data;
-    })
+    });
     console.log(this.userData);
     console.log(this.paginatorCount);
   }
 
-  onPageChange(e:PageEvent){
-    this.userservice.handleSearch(this.customer, e.pageIndex+1);
+  onPageChange(e: PageEvent) {
+    this.userservice.handleSearch(this.customer, e.pageIndex + 1);
     this.userData = this.userservice.userData;
     window.scrollTo({
       top: 250
@@ -261,8 +262,77 @@ export class Home {
     console.log(this.userData);
   }
 
-  selectAllChecked:boolean = false;
-  onSelectAll(){
+  selectAllChecked: boolean = false;
+  customerSelectedCount: number = 0;
+  onSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
+    console.log(this.userData);
   }
+
+  updateCustomer = new FormGroup({
+    BA_Origin: new FormControl(''),
+    Customer_Group_Calc: new FormControl(''),
+    Cust_Name: new FormControl(''),
+    Cust_No: new FormControl(''),
+    Cust_Elim_or_Name: new FormControl(''),
+    Cust_Sales_Area: new FormControl(''),
+    Company_Code: new FormControl(''),
+    id: new FormControl()
+  });
+
+  handleUpdate(data: any) {
+    console.log(data);
+    if (data.id) {
+      this.userData[this.userData.length - 1] = this.userData[this.userData.length - 1].map((item: any) => {
+        if (item.id == data.id) {
+          return {
+            ...item,
+            isChecked: true
+          }
+        } else {
+          return {
+            ...item
+          }
+        }
+      });
+      this.updateCustomer.patchValue({
+        BA_Origin: data.ba_origin,
+        Customer_Group_Calc: data.customer_group_calc,
+        Cust_Name: data.cust_name,
+        Cust_No: data.cust_no,
+        Cust_Elim_or_Name: data.cust_elim_or_name,
+        Cust_Sales_Area: data.cust_sales_area,
+        Company_Code: data.company_code,
+        id: data.id
+      });
+      this.customerSelectedCount += 1;
+      console.log(this.updateCustomer);
+    }
+  }
+  handleCustomerUpdate(){
+    try {
+      const response = this.userservice.updateCustomer(this.updateCustomer);
+      response.subscribe(data => {
+        console.log(data);
+      })
+      this.customerSelectedCount -= 1;
+      this.userData[this.userData.length - 1] = this.userData[this.userData.length - 1].map((item: any) => {
+          if (item.id == this.updateCustomer.get('id')?.value) {
+            return {
+              ...item,
+              isChecked: false
+            }
+          } else {
+            return {
+              ...item
+            }
+          }
+        });
+        
+    } catch (error) {
+      console.log(error);
+    }
+    this.handleCustomerSearch()
+  }
+
 }

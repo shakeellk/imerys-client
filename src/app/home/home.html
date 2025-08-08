@@ -3,9 +3,9 @@
     <h4 class="font-semibold">PMA Projection Outlook Indicator</h4>
   </div>
 
-  <div class="w-full flex items-start gap-4 mt-4"> <!-- Increased top margin -->
-    <div class="flex items-center h-[44px]"> <!-- Fixed height to match card headers -->
-      <h5 class="font-medium text-sm">Select</h5> <!-- Changed from text-xs to text-sm -->
+  <div class="w-full flex items-start gap-4 mt-4">
+    <div class="flex items-center h-[44px]">
+      <h5 class="font-medium text-sm">Select</h5>
     </div>
 
     <div class="w-full flex items-start justify-start gap-10"> <!-- Site Group -->
@@ -89,10 +89,19 @@
     <div class="w-full bg-[#D9D9D9] rounded-lg p-5">
       <form [formGroup]="customer" *ngIf="activeTab === 'Customer'" class="w-full" (submit)="handleCustomerSearch()">
 
-        <div class="w-full grid grid-cols-7 items-center justify-center gap-3">
+        <div class="w-full grid grid-cols-7 items-center justify-center gap-5">
           <div *ngFor="let field of customersFields" class="w-full">
-            <input type="text" [placeholder]="field.name" formControlName={{field.name}}
-              class="p-2 rounded-md bg-transparent border border-[#8E8E8E] w-full text-sm placeholder:text-black placeholder:text-center" />
+            <!-- <input type="text" [placeholder]="field.name" formControlName={{field.name}}
+              class="p-2 rounded-md bg-transparent border border-[#8E8E8E] w-full text-sm placeholder:text-black placeholder:text-center" /> -->
+            <div class="relative w-full">
+              <input type="text" id="field.name"
+                class="block px-2.5 pb-2.5 pt-4 w-full h-full text-sm text-gray-900 bg-transparent rounded-lg border-1 z-20 border-gray-300 appearance-none dark:text-black dark:border-gray-600 focus:outline-none focus:ring-0  peer"
+                placeholder=" " formControlName={{field.name}} />
+              <label for="field.name"
+                class="absolute text-sm text-black dark:text-black duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+                {{field.name}}
+              </label>
+            </div>
           </div>
         </div>
 
@@ -126,60 +135,68 @@
       <div class="flex items-center justify-between">
         <span></span>
         <div class="flex items-center justify-center gap-5">
-          <button class="bg-[#2F2F2F] cursor-pointer p-1 rounded-full" *ngIf="selectAllChecked" (click)="onSelectAll()">
+          <button class="bg-[#2F2F2F] cursor-pointer p-1 rounded-full" *ngIf="customerSelectedCount > 0"
+            (click)="handleCustomerUpdate()">
             <img src="/assets/icons/check.png" alt="check" class="w-6">
           </button>
           <button class="cursor-pointer p-1 rounded-full" *ngIf="selectAllChecked">
             <img src="/assets/icons/delete.png" alt="check" class="w-7">
           </button>
           <button (click)="handleFilterButtonClick()"
-          class="flex items-center justify-center gap-2 bg-[#2F2F2F] text-white rounded-lg text-sm cursor-pointer"
-          style="width: 140px; height: 50px;">
-          <img src="../../../assets/icons/filter.png" alt="" class="w-6" />
-          <span>Filter</span>
-        </button>
+            class="flex items-center justify-center gap-2 bg-[#2F2F2F] text-white rounded-lg text-sm cursor-pointer"
+            style="width: 140px; height: 50px;">
+            <img src="../../../assets/icons/filter.png" alt="" class="w-6" />
+            <span>Filter</span>
+          </button>
         </div>
       </div>
     </div>
 
     <div [hidden]="!filterButtonActive"
-    class="w-[70%] bg-white h-auto shadow-2xl bg-opacity-90 border border-[#2F2F2F] absolute top-[50%] left-[15%] p-5">
-    <div class="w-full h-full relative">
-      <div class="absolute right-0 top-0">
-        <div class="p-2 shadow-xl border rounded-full border-[#2F2F2F] cursor-pointer bg-white"
-          (click)="handleFilterButtonClick()">
-          <img src="../../../assets/icons/close.png" alt="" class="w-5 font-medium" />
+      class="w-[70%] bg-white h-auto shadow-2xl bg-opacity-90 border border-[#2F2F2F] absolute top-[50%] left-[15%] p-5">
+      <div class="w-full h-full relative">
+        <div class="absolute right-0 top-0">
+          <div class="p-2 shadow-xl border rounded-full border-[#2F2F2F] cursor-pointer bg-white"
+            (click)="handleFilterButtonClick()">
+            <img src="../../../assets/icons/close.png" alt="" class="w-5 font-medium" />
+          </div>
         </div>
-      </div>
-      <div class="flex items-center justify-center">
-        <button class="bg-[#2F2F2F] text-white rounded-lg text-sm flex items-center justify-center gap-1"
-          style="width: 140px; height: 50px;">
-          <img src="../../../assets/icons/filter.png" alt="" class="w-6" />
-          <span>Filter Columns</span>
-        </button>
-      </div>
+        <div class="flex items-center justify-center">
+          <button class="bg-[#2F2F2F] text-white rounded-lg text-sm flex items-center justify-center gap-1"
+            style="width: 140px; height: 50px;">
+            <img src="../../../assets/icons/filter.png" alt="" class="w-6" />
+            <span>Filter Columns</span>
+          </button>
+        </div>
 
-      <div class="mt-10">
-        <div class="w-full grid grid-cols-4 items-center justify-center gap-7">
-          <div *ngFor="let item of filterColumns"
-            class="flex items-center justify-start gap-3 bg-[#D9D9D9] p-3 rounded-md">
-            <input type="checkbox" class="checked:accent-[#2F2F2F] w-6 h-6" />
-            <div class="w-full">
-              <h5 class="text-sm text-center font-medium">{{ item.name }}</h5>
+        <div class="mt-10">
+          <div class="w-full grid grid-cols-4 items-center justify-center gap-7">
+            <div *ngFor="let item of filterColumns"
+              class="flex items-center justify-start gap-3 bg-[#D9D9D9] p-3 rounded-md">
+              <input type="checkbox" class="checked:accent-[#2F2F2F] w-6 h-6" />
+              <div class="w-full">
+                <h5 class="text-sm text-center font-medium">{{ item.name }}</h5>
+              </div>
             </div>
           </div>
         </div>
+
+        <div class="mt-5 text-center">
+          <button class="bg-[#3367AA] text-white font-medium text-sm px-6 py-2 rounded-md cursor-pointer">
+            Selected
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
     <!-- Table -->
     <div class="mt-5 w-full" *ngIf="userData.length > 0">
       <div class="bg-[#8E8E8E] w-full py-4">
         <div class="w-full grid grid-cols-8 items-center justify-center">
-          <div class="w-full flex items-center justify-center">
+          <div class=" flex items-center justify-center">
             <div class="">
-              <input type="checkbox" class="w-6 h-6 accent-[#2F2F2F] bg-[#2F2F2F]" [checked]="selectAllChecked" (click)="onSelectAll()">
+              <input type="checkbox" class="w-6 h-6 accent-[#2F2F2F] bg-[#2F2F2F]" [checked]="selectAllChecked"
+                (click)="onSelectAll()">
             </div>
           </div>
           <div *ngFor="let item of inputs" class="text-center text-sm font-medium">
@@ -190,11 +207,12 @@
 
       <!-- Rows -->
 
-      <div *ngFor="let item of userData[userData.length - 1]">
-        <div *ngIf="!selectAllChecked" class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
+      <div *ngFor="let item of userData[userData.length -1]">
+        <div *ngIf="!item.isChecked"
+          class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
           <div class="flex items-center justify-center">
-            <div class="">
-              <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" [checked]="selectAllChecked">
+            <div class="w-fit">
+              <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" [checked]="" (click)="handleUpdate(item)">
             </div>
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
@@ -204,7 +222,7 @@
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
             <span class="text-sm text-black">{{ item.customer_group_calc }}</span>
           </div>
-          <div class="flex items-center justify-center h-full border-x border-[#959595]">
+          <div class="flex items-center justify-center h-full border-x border-[#959595] w-full px-2 text-center">
             <span class="text-sm text-black">{{ item.cust_name }}</span>
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
@@ -220,40 +238,49 @@
             <span class="text-sm text-black">{{ item.company_code }}</span>
           </div>
         </div>
-        <div *ngIf="selectAllChecked" class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
+        <form [formGroup]="updateCustomer" *ngIf="item.isChecked"
+          class="h-28 border-x border-b border-[#959595] grid grid-cols-8 items-center justify-center">
           <div class="flex items-center justify-center">
             <div class="">
-              <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" [checked]="selectAllChecked">
+              <input type="checkbox" class="w-5 h-5 accent-[#2F2F2F]" [checked]="item.isChecked"
+                (click)="item.isChecked = !item.isChecked ">
             </div>
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
-            <input class="text-sm text-black outline-none h-full" value="{{item.ba_origin}}" />
+            <input class="text-sm text-black outline-none h-full" value="{{item.ba_origin}}"
+              formControlName="BA_Origin" />
           </div>
 
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
-            <input class="text-sm text-black outline-none h-full" value="{{ item.customer_group_calc }}" />
+            <input class="text-sm text-black outline-none h-full" value="{{ item.customer_group_calc }}"
+              formControlName="Customer_Group_Calc" />
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
-            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_name }}" />
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_name }}"
+              formControlName="Cust_Name" />
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
-            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_no }}" />
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_no }}"
+              formControlName="Cust_No" />
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
-            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_elim_or_name }}" />
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_elim_or_name }}"
+              formControlName="Cust_Elim_or_Name" />
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595] overflow-hidden">
-            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_sales_area }}" />
+            <input class="text-sm text-black outline-none h-full" value="{{ item.cust_sales_area }}"
+              formControlName="Cust_Sales_Area" />
           </div>
           <div class="flex items-center justify-center h-full border-x border-[#959595]">
-            <input class="text-sm text-black outline-none h-full" value="{{ item.company_code }}" />
+            <input class="text-sm text-black outline-none h-full" value="{{ item.company_code }}"
+              formControlName="Company_Code" />
           </div>
-        </div>
+        </form>
       </div>
       <mat-paginator [length]="paginatorCount" [pageSize]="10" aria-label="Select page" (page)="onPageChange($event)"
         onchange="onPageChange($event)">
       </mat-paginator>
     </div>
   </div>
-  
+
 </div>

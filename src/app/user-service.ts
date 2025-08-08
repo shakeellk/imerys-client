@@ -58,15 +58,38 @@ export class UserService {
     try {
       const response = this.searchCustomers(customer, currentPage);
       response.subscribe(data => {
-        this.userData.push(data.customers);
+        const dataChecked = data?.customers?.map((item: any) => {
+          return {
+            ...item,
+            isChecked: false
+          }
+        });
+        this.userData.push(dataChecked);
         this.paginatorCount.next(data.totalRecords);
-        console.log(data);
-        console.log(this.paginatorCount);
+      }, error => {
+        console.log(error.error.message);
       });
       
       
     } catch (error: any) {
       console.log("Error", error)
     }
+  }
+
+  updateCustomer(customer:FormGroup){
+    console.log(customer)
+    return this.http.put(`http://nodejs-app-env.eba-kxgefpxt.ap-south-1.elasticbeanstalk.com/api/customers/update`, {}, {
+      params: {
+        BA_Origin: customer.get('BA_Origin')?.value,
+        Customer_Group_Calc: customer.get('Customer_Group_Calc')?.value,
+        Cust_Name: customer.get('Cust_Name')?.value,
+        Cust_No: customer.get('Cust_No')?.value,
+        Cust_Elim_or_Name: customer.get('Cust_Elim_or_Name')?.value,
+        Cust_Sales_Area: customer.get('Cust_Sales_Area')?.value,
+        Company_Code: customer.get('Company_Code')?.value,
+        id: customer.get('id')?.value
+      }
+    });
+
   }
 }
